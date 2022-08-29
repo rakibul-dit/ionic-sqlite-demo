@@ -1,0 +1,51 @@
+{
+  "name": "next-ionic-sqlite",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "update-jeep": "npm install --save @capacitor-community/sqlite@latest --save-dev react-sqlite-hook@latest --save jeep-sqlite@latest",
+    "update-capacitor": "npm install --save @capacitor/core@latest --save @capacitor/android@latest --save @capacitor/ios@latest --save-dev @capacitor/cli@latest"
+  },
+  "dependencies": {
+    "@capacitor/android": "^3.0.1",
+    "@capacitor/cli": "^3.0.1",
+    "@capacitor/core": "^3.0.1",
+    "@capacitor/ios": "^3.0.1",
+    "@capacitor/status-bar": "^1.0.1",
+    "@ionic/react": "^6.1.2",
+    "@ionic/react-router": "^6.1.2",
+    "@ionic/storage": "^3.0.6",
+    "@types/node": "^12.19.15",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "react-virtuoso": "^1.1.1",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@capacitor-community/sqlite": "^3.3.3-1",
+    "@capacitor/cli": "^3.3.3",
+    "@types/react": "^18.0.17",
+    "ansi-regex": "^6.0.1",
+    "autoprefixer": "^10.4.5",
+    "eslint": "^7.28.0",
+    "eslint-config-next": "^11.0.0",
+    "ionicons": "^5.2.3",
+    "jeep-sqlite": "^1.3.3",
+    "postcss": "^8.4.12",
+    "prettier": "^2.2.1",
+    "pullstate": "^1.20.5",
+    "react-sqlite-hook": "^2.1.4",
+    "react-use-gesture": "^9.1.3",
+    "reselect": "^4.0.0",
+    "tailwindcss": "^3.0.24"
+  }
+}
