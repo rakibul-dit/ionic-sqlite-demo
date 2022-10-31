@@ -24,10 +24,10 @@ const Home = () => {
   const isUpdated = Store.useState(selectors.getIsUpdatedGl);
   const isImported = Store.useState(selectors.getIsImportedGl);
 
-  const updateServerSyncDate = async () => {
-    await store.set('serverSyncDate', new Date());
-    // window.location.reload();
-  };
+  // const updateServerSyncDate = async () => {
+  //   await store.set('serverSyncDate', new Date().toISOString());
+  //   // window.location.reload();
+  // };
 
   useEffect(() => {
     let load = async () => {
@@ -49,6 +49,7 @@ const Home = () => {
       }
     };
     load();
+    console.log('home useEffect');
   }, [isUpdated, isImported]);
 
   console.log(data);
@@ -65,8 +66,8 @@ const Home = () => {
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <h1 style={{ textAlign: 'center' }}>Header</h1>
-        <IonButton onClick={updateServerSyncDate}>Update server syncDate</IonButton>
-        <h2>Please click above button and refresh to see update behaviour.</h2>
+        {/* <IonButton onClick={updateServerSyncDate}>Update server syncDate</IonButton>
+        <h2>Please click above button and refresh to see update behaviour.</h2> */}
 
         {data && (
           <table>
@@ -86,11 +87,11 @@ const Home = () => {
             </tbody>
           </table>
         )}
-        <p>
+        {/* <p>
           If sever syncDate is greater than local, and internet connection availabe then when app
           launched, it will fetch partial json and update db.
         </p>
-        <p>We are mimicing this, using localStorage syncDate by the button.</p>
+        <p>We are mimicing this, using localStorage syncDate by the button.</p> */}
       </IonContent>
     </IonPage>
   );

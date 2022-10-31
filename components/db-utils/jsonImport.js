@@ -1,10 +1,31 @@
-import { dataToImport, partialData, partialImport } from './jsonData';
+import { dataToImport } from './jsonData';
 import { sqlite } from '../AppShell';
 import { Storage } from '@ionic/storage';
 import { setIsUpdatedGl } from '../../store/actions';
 
 const store = new Storage();
 store.create();
+
+const fetchServerSyncDate = async () => {
+  const response = await fetch(
+    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml'
+  )
+    .then(response => response.text())
+    .then(data => {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data, 'application/xml');
+      return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
+    })
+    .catch(console.error);
+  return response;
+};
+
+const fetchUpdatedJson = async () => {
+  const response = await fetch(
+    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js'
+  ).then(data => data.json());
+  return await response;
+};
 
 export const fullImportFromJson = async _ => {
   try {
@@ -58,30 +79,40 @@ export const updateDb = async _ => {
     await db.open();
     // get the local synchronization date
     let localSyncDate = await db.getSyncDate();
-    console.log(localSyncDate);
+    console.log('local', localSyncDate);
     await db.close();
     if (!localSyncDate) {
       return false;
     }
     // fetch server syncDate
-    let serverSyncDate = await store.get('serverSyncDate');
+    let serverSyncDate = await fetchServerSyncDate();
+    console.log('server', serverSyncDate);
 
-    if (serverSyncDate > new Date(localSyncDate)) {
+    if (new Date(serverSyncDate) > new Date(localSyncDate)) {
+      // fetch updated data
+      let partialData = await fetchUpdatedJson();
+      console.log(partialData);
+
       // Json object validity
-      let res = await sqlite.isJsonValid(JSON.stringify(partialImport));
+      let res = await sqlite.isJsonValid(JSON.stringify(partialData));
       if (!res.result) {
         return false;
       }
+
       // import from Json Object
-      res = await sqlite.importFromJson(JSON.stringify(partialImport));
+      res = await sqlite.importFromJson(JSON.stringify(partialData));
       console.log(`update result ${res.changes.changes}`);
       if (res.changes.changes === -1) {
         console.log(`update unsuccessfull`);
         return false;
       }
       console.log(`update successfull`);
+
       await db.open();
-      await db.setSyncDate(new Date().toISOString());
+      //** need to change here in real project */
+      // await db.setSyncDate(new Date().toISOString());
+      await db.setSyncDate(serverSyncDate);
+
       res = await db.query('SELECT * FROM users;');
       console.log(res.values);
       await db.close();
@@ -94,6 +125,7 @@ export const updateDb = async _ => {
       return false;
     }
   } catch (err) {
+    setIsUpdatedGl(undefined);
     console.log(err);
     return false;
   }

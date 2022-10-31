@@ -1,0 +1,17 @@
+{
+  "database": "db-from-json",
+  "version": 1,
+  "encrypted": false,
+  "mode": "partial",
+  "tables": [
+    {
+      "name": "users",
+      "values": [
+        [5, "Addington.com", "Addington", 22, 0, 1601972413],
+        [6, "Bannister.com", "Bannister", 59, 0, 1601983245],
+        [2, "Jones@example.com", "Jones", 45, 0, 1601995473],
+        [1, "Whiteley.com", "Whiteley", 30, 1, 1601995520]
+      ]
+    }
+  ]
+}
