@@ -8,7 +8,10 @@ store.create();
 
 const fetchServerSyncDate = async () => {
   const response = await fetch(
-    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml'
+    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml',
+    {
+      method: 'GET',
+    }
   )
     .then(response => response.text())
     .then(data => {
@@ -22,7 +25,10 @@ const fetchServerSyncDate = async () => {
 
 const fetchUpdatedJson = async () => {
   const response = await fetch(
-    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js'
+    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
+    {
+      method: 'GET',
+    }
   ).then(data => data.json());
   return await response;
 };
