@@ -6,37 +6,25 @@ import { setIsUpdatedGl } from '../../store/actions';
 const store = new Storage();
 store.create();
 
-const headers = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-};
+// const headers = {
+//   'Content-Type': 'application/json',
+//   'Access-Control-Allow-Origin': '*',
+// };
 
 const fetchServerSyncDate = async () => {
-  const response = await fetch(
-    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml',
-    {
-      method: 'GET',
-      headers,
-    }
-  )
+  const response = await fetch('http://localhost/tmp/lastUpdate.php')
     .then(response => response.text())
-    .then(data => {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data, 'application/xml');
-      return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
-    })
+    // .then(data => {
+    //   const parser = new DOMParser();
+    //   const xml = parser.parseFromString(data, 'application/xml');
+    //   return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
+    // })
     .catch(console.error);
   return response;
 };
 
 const fetchUpdatedJson = async () => {
-  const response = await fetch(
-    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
-    {
-      method: 'GET',
-      headers,
-    }
-  ).then(data => data.json());
+  const response = await fetch('http://localhost/tmp/updatedData.js').then(data => data.json());
   return await response;
 };
 
@@ -123,8 +111,8 @@ export const updateDb = async _ => {
 
       await db.open();
       //** need to change here in real project */
-      // await db.setSyncDate(new Date().toISOString());
-      await db.setSyncDate(serverSyncDate);
+      await db.setSyncDate(new Date().toISOString());
+      // await db.setSyncDate(serverSyncDate);
 
       res = await db.query('SELECT * FROM users;');
       console.log(res.values);
