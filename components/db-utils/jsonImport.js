@@ -6,11 +6,17 @@ import { setIsUpdatedGl } from '../../store/actions';
 const store = new Storage();
 store.create();
 
+const headers = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+};
+
 const fetchServerSyncDate = async () => {
   const response = await fetch(
     'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml',
     {
       method: 'GET',
+      headers,
     }
   )
     .then(response => response.text())
@@ -28,6 +34,7 @@ const fetchUpdatedJson = async () => {
     'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
     {
       method: 'GET',
+      headers,
     }
   ).then(data => data.json());
   return await response;
