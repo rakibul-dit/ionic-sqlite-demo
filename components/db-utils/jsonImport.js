@@ -12,19 +12,31 @@ store.create();
 // };
 
 const fetchServerSyncDate = async () => {
-  const response = await fetch('http://localhost/tmp/lastUpdate.php')
+  // const response = await fetch('http://localhost/tmp/lastUpdate.php')
+  const response = await fetch(
+    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml',
+    {
+      method: 'GET',
+    }
+  )
     .then(response => response.text())
-    // .then(data => {
-    //   const parser = new DOMParser();
-    //   const xml = parser.parseFromString(data, 'application/xml');
-    //   return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
-    // })
+    .then(data => {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data, 'application/xml');
+      return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
+    })
     .catch(console.error);
   return response;
 };
 
 const fetchUpdatedJson = async () => {
-  const response = await fetch('http://localhost/tmp/updatedData.js').then(data => data.json());
+  // const response = await fetch('http://localhost/tmp/updatedData.js')
+  const response = await fetch(
+    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
+    {
+      method: 'GET',
+    }
+  ).then(data => data.json());
   return await response;
 };
 
