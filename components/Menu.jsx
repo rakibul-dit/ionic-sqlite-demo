@@ -27,7 +27,7 @@ const menus = [
   {
     title: 'সম্বন্ধে',
     icon: informationCircleOutline,
-    url: '/',
+    url: '/about',
     isHr: true,
   },
 ];

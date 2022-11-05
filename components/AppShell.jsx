@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import { Storage } from '@ionic/storage';
 import { fullImportFromJson, updateDb } from './db-utils/jsonImport';
 import { setIsImportedGl } from '../store/actions';
+import Store from '../store';
+import * as selectors from '../store/selectors';
+import About from './pages/About';
 
 // Singleton SQLite Hook
 export let sqlite;
@@ -50,7 +53,8 @@ const AppShell = () => {
   };
 
   const [isImported, setIsImported] = useState();
-  console.log(isImported);
+  console.log('is imported = ', isImported);
+  const isFetched = Store.useState(selectors.getIsFetched);
 
   const getIsImported = async v => {
     v = await store.get('isImported');
@@ -81,14 +85,16 @@ const AppShell = () => {
         }
       }
       // db is imported & user is in online
-      // if (isImported === true && navigator.onLine) {
-      if (isImported === true) {
+      if (isImported === true && navigator.onLine) {
+        console.log('trigger update');
         // request for update data
-        await updateDb();
+        setTimeout(async () => {
+          await updateDb();
+        }, 2000);
       }
     };
     loadDb();
-  }, [isImported]);
+  }, [isImported, isFetched]);
 
   return (
     <IonApp>
@@ -96,7 +102,8 @@ const AppShell = () => {
         <IonSplitPane contentId="main">
           <Menu />
           <IonRouterOutlet id="main">
-            <Route path="/" render={() => <Home />} />
+            <Route exact path="/" render={() => <Home />} />
+            <Route exact path="/about" render={() => <About />} />
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }) {
     };
     load();
     // });
-  });
+  }, []);
 
   return (
     <>

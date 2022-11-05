@@ -81,13 +81,9 @@ export const fullImportFromJson = async _ => {
 // if server syncDate is greater, fetch partial json
 export const updateDb = async _ => {
   try {
-    setIsUpdatedGl(false);
-
-    // fetch server syncDate
-    let serverSyncDate = await fetchServerSyncDate();
-    console.log('server', serverSyncDate);
-
     let db = await sqlite.createConnection('db-from-json', false, 'no-encryption', 1);
+    // let db = await sqlite.retrieveConnection('db-from-json');
+
     await db.open();
     // get the local synchronization date
     let localSyncDate = await db.getSyncDate();
@@ -96,6 +92,10 @@ export const updateDb = async _ => {
     if (!localSyncDate) {
       return false;
     }
+
+    // fetch server syncDate
+    let serverSyncDate = await fetchServerSyncDate();
+    console.log('server', serverSyncDate);
 
     if (new Date(serverSyncDate) > new Date(localSyncDate)) {
       // fetch updated data
@@ -118,23 +118,21 @@ export const updateDb = async _ => {
       console.log(`update successfull`);
 
       await db.open();
-      //** need to change here in real project */
+
       await db.setSyncDate(new Date().toISOString());
       // await db.setSyncDate(serverSyncDate);
 
-      res = await db.query('SELECT * FROM users;');
-      console.log(res.values);
+      // res = await db.query('SELECT * FROM users;');
+      // console.log(res.values);
       await db.close();
       await sqlite.closeConnection('db-from-json');
       setIsUpdatedGl(true);
 
       return true;
     } else {
-      setIsUpdatedGl(undefined);
       return false;
     }
   } catch (err) {
-    setIsUpdatedGl(undefined);
     console.log(err);
     return false;
   }
