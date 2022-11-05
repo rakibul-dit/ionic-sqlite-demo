@@ -6,33 +6,28 @@ import { setIsUpdatedGl } from '../../store/actions';
 const store = new Storage();
 store.create();
 
-// const headers = {
-//   'Content-Type': 'application/json',
-//   'Access-Control-Allow-Origin': '*',
-// };
-
 const fetchServerSyncDate = async () => {
-  // const response = await fetch('http://localhost/tmp/lastUpdate.php')
   const response = await fetch(
-    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml',
+    // 'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml',
+    'https://next-api-sqlite-demo.vercel.app/api/last-update',
     {
       method: 'GET',
     }
   )
-    .then(response => response.text())
-    .then(data => {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data, 'application/xml');
-      return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
-    })
+    .then(response => response.json())
+    // .then(data => {
+    //   const parser = new DOMParser();
+    //   const xml = parser.parseFromString(data, 'application/xml');
+    //   return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
+    // })
     .catch(console.error);
-  return response;
+  return response.lastUpdate;
 };
 
 const fetchUpdatedJson = async () => {
-  // const response = await fetch('http://localhost/tmp/updatedData.js')
   const response = await fetch(
-    'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
+    // 'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
+    'https://next-api-sqlite-demo.vercel.app/api/updated-data',
     {
       method: 'GET',
     }
@@ -88,6 +83,10 @@ export const updateDb = async _ => {
   try {
     setIsUpdatedGl(false);
 
+    // fetch server syncDate
+    let serverSyncDate = await fetchServerSyncDate();
+    console.log('server', serverSyncDate);
+
     let db = await sqlite.createConnection('db-from-json', false, 'no-encryption', 1);
     await db.open();
     // get the local synchronization date
@@ -97,9 +96,6 @@ export const updateDb = async _ => {
     if (!localSyncDate) {
       return false;
     }
-    // fetch server syncDate
-    let serverSyncDate = await fetchServerSyncDate();
-    console.log('server', serverSyncDate);
 
     if (new Date(serverSyncDate) > new Date(localSyncDate)) {
       // fetch updated data

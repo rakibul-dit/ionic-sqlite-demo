@@ -81,7 +81,8 @@ const AppShell = () => {
         }
       }
       // db is imported & user is in online
-      if (isImported === true && navigator.onLine) {
+      // if (isImported === true && navigator.onLine) {
+      if (isImported === true) {
         // request for update data
         await updateDb();
       }
