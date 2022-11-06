@@ -119,8 +119,8 @@ export const updateDb = async _ => {
 
       await db.open();
 
-      await db.setSyncDate(new Date().toISOString());
-      // await db.setSyncDate(serverSyncDate);
+      // await db.setSyncDate(new Date().toISOString());
+      await db.setSyncDate(serverSyncDate);
 
       // res = await db.query('SELECT * FROM users;');
       // console.log(res.values);

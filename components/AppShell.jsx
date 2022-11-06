@@ -2,7 +2,6 @@ import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/r
 import { IonReactRouter } from '@ionic/react-router';
 import { Route } from 'react-router-dom';
 import Menu from './Menu';
-import Home from './pages/Home';
 import { useSQLite } from 'react-sqlite-hook';
 import { useEffect, useState } from 'react';
 import { Storage } from '@ionic/storage';
@@ -10,7 +9,10 @@ import { fullImportFromJson, updateDb } from './db-utils/jsonImport';
 import { setIsImportedGl } from '../store/actions';
 import Store from '../store';
 import * as selectors from '../store/selectors';
+import Home from './pages/Home';
 import About from './pages/About';
+import Users from './pages/Users';
+import Messages from './pages/Messages';
 
 // Singleton SQLite Hook
 export let sqlite;
@@ -28,13 +30,8 @@ const AppShell = () => {
     getPlatform,
     createConnection,
     closeConnection,
-    retrieveConnection,
-    retrieveAllConnections,
-    closeAllConnections,
-    addUpgradeStatement,
     importFromJson,
     isJsonValid,
-    copyFromAssets,
     isAvailable,
   } = useSQLite();
   sqlite = {
@@ -42,19 +39,14 @@ const AppShell = () => {
     getPlatform: getPlatform,
     createConnection: createConnection,
     closeConnection: closeConnection,
-    retrieveConnection: retrieveConnection,
-    retrieveAllConnections: retrieveAllConnections,
-    closeAllConnections: closeAllConnections,
-    addUpgradeStatement: addUpgradeStatement,
     importFromJson: importFromJson,
     isJsonValid: isJsonValid,
-    copyFromAssets: copyFromAssets,
     isAvailable: isAvailable,
   };
 
   const [isImported, setIsImported] = useState();
   console.log('is imported = ', isImported);
-  const isFetched = Store.useState(selectors.getIsFetched);
+  const isTriggerUpdate = Store.useState(selectors.getIsTriggerUpdate);
 
   const getIsImported = async v => {
     v = await store.get('isImported');
@@ -84,17 +76,23 @@ const AppShell = () => {
           storeIsImported();
         }
       }
-      // db is imported & user is in online
-      if (isImported === true && navigator.onLine) {
-        console.log('trigger update');
-        // request for update data
-        setTimeout(async () => {
-          await updateDb();
-        }, 2000);
-      }
     };
     loadDb();
-  }, [isImported, isFetched]);
+  }, [isImported]);
+
+  useEffect(() => {
+    const triggerUpdate = async () => {
+      // db is imported & user is in online
+      if (isTriggerUpdate === true && navigator.onLine) {
+        console.log('trigger update');
+        // request for update data
+        // setTimeout(async () => {
+        await updateDb();
+        // }, 2000);
+      }
+    };
+    triggerUpdate();
+  }, [isTriggerUpdate]);
 
   return (
     <IonApp>
@@ -103,6 +101,8 @@ const AppShell = () => {
           <Menu />
           <IonRouterOutlet id="main">
             <Route exact path="/" render={() => <Home />} />
+            <Route exact path="/users" render={() => <Users />} />
+            <Route exact path="/messages" render={() => <Messages />} />
             <Route exact path="/about" render={() => <About />} />
           </IonRouterOutlet>
         </IonSplitPane>

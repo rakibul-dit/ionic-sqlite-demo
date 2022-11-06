@@ -10,8 +10,8 @@ export const setIsImportedGl = bol => {
     s.isImportedGl = bol;
   });
 };
-export const setIsFetched = bol => {
+export const setIsTriggerUpdate = bol => {
   Store.update(s => {
-    s.isFetched = bol;
+    s.isTriggerUpdate = bol;
   });
 };

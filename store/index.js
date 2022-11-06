@@ -5,7 +5,7 @@ const Store = new PullStateStore({
   safeAreaBottom: 0,
   isUpdatedGl: undefined,
   isImportedGl: undefined,
-  isFetched: false,
+  isTriggerUpdate: false,
 });
 
 export default Store;
