@@ -15,6 +15,7 @@ import Users from './pages/Users';
 import Messages from './pages/Messages';
 import Tafsir from './pages/Tafsir';
 import Tafsirs from './pages/Tafsirs';
+import AmarZakat from './pages/AmarZakat';
 
 // Singleton SQLite Hook
 export let sqlite;
@@ -110,6 +111,7 @@ const AppShell = () => {
             <Route exact path="/users" render={() => <Users />} />
             <Route exact path="/messages" render={() => <Messages />} />
             <Route exact path="/tafsirs" render={() => <Tafsirs />} />
+            <Route exact path="/amar-zakat" render={props => <AmarZakat {...props} />} />
             <Route exact path="/tafsirs/:id" render={props => <Tafsir {...props} />} />
             <Route exact path="/about" render={() => <About />} />
           </IonRouterOutlet>

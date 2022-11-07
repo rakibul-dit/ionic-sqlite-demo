@@ -36,6 +36,7 @@ const Home = () => {
         <IonButton routerLink="/users">Users</IonButton>
         <IonButton routerLink="/messages">Messages</IonButton>
         <IonButton routerLink="/tafsirs">Tafsirs</IonButton>
+        <IonButton routerLink="/amar-zakat">Amar Zakat</IonButton>
       </IonContent>
     </IonPage>
   );

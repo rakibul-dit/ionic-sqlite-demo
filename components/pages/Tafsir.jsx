@@ -48,9 +48,10 @@ const Tafsir = ({ match }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
+        <h1>Tafsir</h1>
         {data && (
           <>
-            <h1 style={{ textAlign: 'center' }}>{data[0].title}</h1>
+            <h2 style={{ textAlign: 'center' }}>{data[0].title}</h2>
             <p>{data[0].tafsir}</p>
           </>
         )}
