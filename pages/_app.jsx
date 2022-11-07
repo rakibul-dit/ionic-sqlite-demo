@@ -36,6 +36,8 @@ function MyApp({ Component, pageProps }) {
           document.body.appendChild(jeepEl);
           await customElements.whenDefined('jeep-sqlite');
           await sqlite.initWebStore();
+          // customElements.whenDefined('jeep-sqlite');
+          // sqlite.initWebStore();
         }
       } catch (err) {
         console.log(`Error: ${err}`);

@@ -35,6 +35,7 @@ const Home = () => {
         <h1 style={{ textAlign: 'center' }}>Home</h1>
         <IonButton routerLink="/users">Users</IonButton>
         <IonButton routerLink="/messages">Messages</IonButton>
+        <IonButton routerLink="/tafsirs">Tafsirs</IonButton>
       </IonContent>
     </IonPage>
   );

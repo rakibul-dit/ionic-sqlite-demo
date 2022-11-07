@@ -15,11 +15,6 @@ const fetchServerSyncDate = async () => {
     }
   )
     .then(response => response.json())
-    // .then(data => {
-    //   const parser = new DOMParser();
-    //   const xml = parser.parseFromString(data, 'application/xml');
-    //   return xml.getElementsByTagName('lastUpdate')[0].childNodes[0].nodeValue;
-    // })
     .catch(console.error);
   return response.lastUpdate;
 };
@@ -46,12 +41,12 @@ export const fullImportFromJson = async _ => {
 
     // test import from Json Object
     res = await sqlite.importFromJson(JSON.stringify(dataToImport));
-    console.log(`import result ${res.changes.changes}`);
+    console.log('import result =', res.changes.changes);
     if (res.changes.changes === -1) {
-      console.log(`import unsuccessfull`);
+      console.log('import unsuccessfull');
       return false;
     }
-    console.log(`import successfull`);
+    console.log('import successfull');
 
     let db = await sqlite.createConnection('db-from-json', false, 'no-encryption', 1);
     await db.open();
@@ -66,7 +61,7 @@ export const fullImportFromJson = async _ => {
       return false;
     }
 
-    console.log('$$ syncDate ' + res);
+    console.log('syncDate ' + res);
     await db.close();
     await sqlite.closeConnection('db-from-json');
 
@@ -110,17 +105,17 @@ export const updateDb = async _ => {
 
       // import from Json Object
       res = await sqlite.importFromJson(JSON.stringify(partialData));
-      console.log(`update result ${res.changes.changes}`);
+      console.log('update result =', res.changes.changes);
       if (res.changes.changes === -1) {
-        console.log(`update unsuccessfull`);
+        console.log('update unsuccessfull');
         return false;
       }
-      console.log(`update successfull`);
+      console.log('update successfull');
 
       await db.open();
 
-      // await db.setSyncDate(new Date().toISOString());
-      await db.setSyncDate(serverSyncDate);
+      await db.setSyncDate(new Date(serverSyncDate).toISOString());
+      // await db.setSyncDate(serverSyncDate);
 
       // res = await db.query('SELECT * FROM users;');
       // console.log(res.values);
@@ -130,6 +125,7 @@ export const updateDb = async _ => {
 
       return true;
     } else {
+      await sqlite.closeConnection('db-from-json');
       return false;
     }
   } catch (err) {

@@ -13,6 +13,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Users from './pages/Users';
 import Messages from './pages/Messages';
+import Tafsir from './pages/Tafsir';
+import Tafsirs from './pages/Tafsirs';
 
 // Singleton SQLite Hook
 export let sqlite;
@@ -33,6 +35,7 @@ const AppShell = () => {
     importFromJson,
     isJsonValid,
     isAvailable,
+    retrieveConnection,
   } = useSQLite();
   sqlite = {
     echo: echo,
@@ -42,6 +45,7 @@ const AppShell = () => {
     importFromJson: importFromJson,
     isJsonValid: isJsonValid,
     isAvailable: isAvailable,
+    retrieveConnection: retrieveConnection,
   };
 
   const [isImported, setIsImported] = useState();
@@ -89,6 +93,8 @@ const AppShell = () => {
         // setTimeout(async () => {
         await updateDb();
         // }, 2000);
+      } else {
+        console.log('offline');
       }
     };
     triggerUpdate();
@@ -103,6 +109,8 @@ const AppShell = () => {
             <Route exact path="/" render={() => <Home />} />
             <Route exact path="/users" render={() => <Users />} />
             <Route exact path="/messages" render={() => <Messages />} />
+            <Route exact path="/tafsirs" render={() => <Tafsirs />} />
+            <Route exact path="/tafsirs/:id" render={props => <Tafsir {...props} />} />
             <Route exact path="/about" render={() => <About />} />
           </IonRouterOutlet>
         </IonSplitPane>
