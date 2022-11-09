@@ -76,21 +76,22 @@ export const fullImportFromJson = async _ => {
 // if server syncDate is greater, fetch partial json
 export const updateDb = async _ => {
   try {
+    // fetch server syncDate
+    let serverSyncDate = await fetchServerSyncDate();
+    console.log('server', serverSyncDate);
+
     let db = await sqlite.createConnection('db-from-json', false, 'no-encryption', 1);
     // let db = await sqlite.retrieveConnection('db-from-json');
-
     await db.open();
     // get the local synchronization date
     let localSyncDate = await db.getSyncDate();
     console.log('local', localSyncDate);
     await db.close();
+    await sqlite.closeConnection('db-from-json');
+
     if (!localSyncDate) {
       return false;
     }
-
-    // fetch server syncDate
-    let serverSyncDate = await fetchServerSyncDate();
-    console.log('server', serverSyncDate);
 
     if (new Date(serverSyncDate) > new Date(localSyncDate)) {
       // fetch updated data
@@ -112,8 +113,8 @@ export const updateDb = async _ => {
       }
       console.log('update successfull');
 
+      let db = await sqlite.createConnection('db-from-json', false, 'no-encryption', 1);
       await db.open();
-
       await db.setSyncDate(new Date(serverSyncDate).toISOString());
       // await db.setSyncDate(serverSyncDate);
 
@@ -125,7 +126,6 @@ export const updateDb = async _ => {
 
       return true;
     } else {
-      await sqlite.closeConnection('db-from-json');
       return false;
     }
   } catch (err) {

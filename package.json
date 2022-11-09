@@ -27,7 +27,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
-    "react-virtuoso": "^1.1.1",
+    "react-virtuoso": "^1.11.1",
     "typescript": "^4.4.4"
   },
   "devDependencies": {
