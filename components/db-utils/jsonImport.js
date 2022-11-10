@@ -1,4 +1,3 @@
-import { dataToImport } from './jsonData';
 import { sqlite } from '../AppShell';
 import { Storage } from '@ionic/storage';
 import { setIsUpdatedGl } from '../../store/actions';
@@ -30,8 +29,20 @@ const fetchUpdatedJson = async () => {
   return await response;
 };
 
+const fetchImportData = async () => {
+  const response = await fetch(
+    // 'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
+    'https://next-api-sqlite-demo.vercel.app/api/import-data',
+    {
+      method: 'GET',
+    }
+  ).then(data => data.json());
+  return await response;
+};
+
 export const fullImportFromJson = async _ => {
   try {
+    let dataToImport = await fetchImportData();
     // test Json object validity
     let res = await sqlite.isJsonValid(JSON.stringify(dataToImport));
     if (!res.result) {

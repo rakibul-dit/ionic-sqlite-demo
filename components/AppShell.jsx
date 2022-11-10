@@ -89,7 +89,6 @@ const AppShell = () => {
     const triggerUpdate = async () => {
       // db is imported & user is in online
       if (isTriggerUpdate === true && navigator.onLine) {
-        console.log(navigator.onLine);
         console.log('trigger update');
         // request for update data
         // setTimeout(async () => {
