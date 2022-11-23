@@ -34,13 +34,13 @@ function MyApp({ Component, pageProps }) {
     const load = async () => {
       const platform = Capacitor.getPlatform();
       console.log(platform);
-      const sqlite = new SQLiteConnection(CapacitorSQLite);
+      // const sqlite = new SQLiteConnection(CapacitorSQLite);
       try {
         if (platform === 'web') {
           const jeepEl = document.createElement('jeep-sqlite');
           document.body.appendChild(jeepEl);
           // await customElements.whenDefined('jeep-sqlite');
-          await sqlite.initWebStore();
+          // await sqlite.initWebStore();
           // jeepEl.isStoreOpen().then(v => console.log(v));
         }
       } catch (err) {
