@@ -6,37 +6,25 @@ const store = new Storage();
 store.create();
 
 const fetchServerSyncDate = async () => {
-  const response = await fetch(
-    // 'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/lastUpdate.xml',
-    'https://next-api-sqlite-demo.vercel.app/api/last-update',
-    {
-      method: 'GET',
-    }
-  )
+  const response = await fetch('https://next-api-sqlite-demo.vercel.app/api/last-update', {
+    method: 'GET',
+  })
     .then(response => response.json())
     .catch(console.error);
   return response.lastUpdate;
 };
 
 const fetchUpdatedJson = async () => {
-  const response = await fetch(
-    // 'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
-    'https://next-api-sqlite-demo.vercel.app/api/updated-data',
-    {
-      method: 'GET',
-    }
-  ).then(data => data.json());
+  const response = await fetch('https://next-api-sqlite-demo.vercel.app/api/updated-data', {
+    method: 'GET',
+  }).then(data => data.json());
   return await response;
 };
 
 const fetchImportData = async () => {
-  const response = await fetch(
-    // 'https://deeniinfotech.sgp1.digitaloceanspaces.com/files/amar-zakat/jsonData2.js',
-    'https://next-api-sqlite-demo.vercel.app/api/import-data',
-    {
-      method: 'GET',
-    }
-  ).then(data => data.json());
+  const response = await fetch('https://next-api-sqlite-demo.vercel.app/api/import-data', {
+    method: 'GET',
+  }).then(data => data.json());
   return await response;
 };
 

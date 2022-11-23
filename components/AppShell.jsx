@@ -28,26 +28,28 @@ const AppShell = () => {
   const store = new Storage();
   store.create();
 
-  const {
-    echo,
-    getPlatform,
-    createConnection,
-    closeConnection,
-    importFromJson,
-    isJsonValid,
-    isAvailable,
-    retrieveConnection,
-  } = useSQLite();
-  sqlite = {
-    echo: echo,
-    getPlatform: getPlatform,
-    createConnection: createConnection,
-    closeConnection: closeConnection,
-    importFromJson: importFromJson,
-    isJsonValid: isJsonValid,
-    isAvailable: isAvailable,
-    retrieveConnection: retrieveConnection,
-  };
+  // const {
+  //   echo,
+  //   getPlatform,
+  //   createConnection,
+  //   closeConnection,
+  //   importFromJson,
+  //   isJsonValid,
+  //   isAvailable,
+  //   retrieveConnection,
+  // } = useSQLite();
+  // sqlite = {
+  //   echo: echo,
+  //   getPlatform: getPlatform,
+  //   createConnection: createConnection,
+  //   closeConnection: closeConnection,
+  //   importFromJson: importFromJson,
+  //   isJsonValid: isJsonValid,
+  //   isAvailable: isAvailable,
+  //   retrieveConnection: retrieveConnection,
+  // };
+
+  sqlite = useSQLite();
 
   const [isImported, setIsImported] = useState();
   console.log('is imported = ', isImported);
@@ -69,6 +71,7 @@ const AppShell = () => {
   };
 
   useEffect(() => {
+    // sqlite.initWebStore();
     getIsImported();
     const loadDb = async () => {
       // db is not imported

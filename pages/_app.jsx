@@ -6,7 +6,12 @@ import {
 } from 'jeep-sqlite/loader';
 import { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
-import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
+import {
+  CapacitorSQLite,
+  SQLiteConnection,
+  CapacitorSQLiteWeb,
+  SQLiteDBConnection,
+} from '@capacitor-community/sqlite';
 
 import 'tailwindcss/tailwind.css';
 import '@ionic/react/css/core.css';
@@ -34,10 +39,10 @@ function MyApp({ Component, pageProps }) {
         if (platform === 'web') {
           const jeepEl = document.createElement('jeep-sqlite');
           document.body.appendChild(jeepEl);
-          await customElements.whenDefined('jeep-sqlite');
+          // await customElements.whenDefined('jeep-sqlite');
           await sqlite.initWebStore();
-          // customElements.whenDefined('jeep-sqlite');
-          // sqlite.initWebStore();
+          console.log(sqlite.isWebStoreOpen);
+          // jeepEl.isStoreOpen().then(v => console.log(v));
         }
       } catch (err) {
         console.log(`Error: ${err}`);
