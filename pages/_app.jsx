@@ -41,7 +41,6 @@ function MyApp({ Component, pageProps }) {
           document.body.appendChild(jeepEl);
           // await customElements.whenDefined('jeep-sqlite');
           await sqlite.initWebStore();
-          console.log(sqlite.isWebStoreOpen);
           // jeepEl.isStoreOpen().then(v => console.log(v));
         }
       } catch (err) {

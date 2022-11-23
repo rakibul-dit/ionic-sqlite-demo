@@ -72,10 +72,10 @@ const AppShell = () => {
 
   useEffect(() => {
     // sqlite.initWebStore();
-    getIsImported();
+    // getIsImported();
     const loadDb = async () => {
       // db is not imported
-      if (isImported === false) {
+      if (!isImported) {
         // json import from local
         let res = await fullImportFromJson();
         if (res) {
