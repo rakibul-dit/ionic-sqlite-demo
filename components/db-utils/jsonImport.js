@@ -31,6 +31,7 @@ const fetchImportData = async () => {
 export const fullImportFromJson = async _ => {
   try {
     let dataToImport = await fetchImportData();
+    console.log(dataToImport);
     // test Json object validity
     let res = await sqlite.isJsonValid(JSON.stringify(dataToImport));
     if (!res.result) {

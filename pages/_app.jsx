@@ -6,12 +6,12 @@ import {
 } from 'jeep-sqlite/loader';
 import { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
-import {
-  CapacitorSQLite,
-  SQLiteConnection,
-  CapacitorSQLiteWeb,
-  SQLiteDBConnection,
-} from '@capacitor-community/sqlite';
+// import {
+//   CapacitorSQLite,
+//   SQLiteConnection,
+//   CapacitorSQLiteWeb,
+//   SQLiteDBConnection,
+// } from '@capacitor-community/sqlite';
 
 import 'tailwindcss/tailwind.css';
 import '@ionic/react/css/core.css';
