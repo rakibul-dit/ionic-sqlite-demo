@@ -22,6 +22,7 @@ const fetchUpdatedJson = async () => {
 };
 
 const fetchImportData = async () => {
+  // const response = await fetch('http://localhost:3000/api/import-data', {
   const response = await fetch('https://next-api-sqlite-demo.vercel.app/api/import-data', {
     method: 'GET',
   }).then(data => data.json());

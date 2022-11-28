@@ -51,21 +51,31 @@ const Tafsir = ({ match }) => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding" fullscreen>
-        <h1>Tafsir</h1>
+      <IonContent className="ion-padding" fullscreen scrollY={false}>
         {data && (
-          <>
-            <Virtuoso
-              // style={{ height: '100vh' }}
-              totalCount={data.length}
-              itemContent={index => (
-                <div id={`tafsir-part-${index}`}>
-                  <h2 style={{ textAlign: 'center' }}>{data[index].title}</h2>
-                  <p>{data[index].tafsir}</p>
-                </div>
-              )}
-            />
-          </>
+          <Virtuoso
+            overscan={2}
+            // style={{ height: '100vh' }}
+            totalCount={data.length}
+            className="ion-content-scroll-host"
+            itemContent={index => (
+              <div id={`tafsir-part-${index}`}>
+                <h2 style={{ textAlign: 'center' }}>{data[index].title}</h2>
+                <p>{data[index].tafsir}</p>
+              </div>
+            )}
+          />
+          // <Virtuoso
+          //   // data={generateUsers(200)}
+          //   totalCount={1000}
+          //   className="ion-content-scroll-host"
+          //   itemContent={index => (
+          //     <div>
+          //       <h4>{index}</h4>
+          //       <div style={{ marginTop: '1rem' }}>alkj gool</div>
+          //     </div>
+          //   )}
+          // />
         )}
       </IonContent>
     </IonPage>
