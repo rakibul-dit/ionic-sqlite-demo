@@ -60,7 +60,7 @@ const Tafsir = ({ match }) => {
             className="ion-content-scroll-host"
             itemContent={index => (
               <div id={`tafsir-part-${index}`}>
-                <h2 style={{ textAlign: 'center' }}>{data[index].title}</h2>
+                <h2 style={{ textAlign: 'center', padding: 8 }}>{data[index].title}</h2>
                 <p>{data[index].tafsir}</p>
               </div>
             )}

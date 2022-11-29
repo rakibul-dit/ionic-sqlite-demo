@@ -24,6 +24,7 @@ import '@ionic/react/css/display.css';
 
 import '../styles/global.css';
 import '../styles/variables.css';
+import '../styles/custom.css';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
