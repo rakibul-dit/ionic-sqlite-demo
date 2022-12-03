@@ -6,16 +6,22 @@ import {
   IonButtons,
   IonContent,
   IonBackButton,
+  IonButton,
+  IonInput,
+  IonItem,
 } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { sqlite } from '../AppShell';
 import Store from '../../store';
 import * as selectors from '../../store/selectors';
 import { Virtuoso } from 'react-virtuoso';
 
 const Tafsir = ({ match }) => {
+  const virtuoso = useRef(null);
   let id = match.params.id;
   const [data, setData] = useState();
+  const [index, setIndex] = useState(0);
+  const [behavior, setBehavior] = useState('auto');
 
   // get from store (global state)
   const isUpdated = Store.useState(selectors.getIsUpdatedGl);
@@ -39,7 +45,7 @@ const Tafsir = ({ match }) => {
     console.log('Tafsir useEffect');
   }, [isUpdated, isImported]);
 
-  console.log(data);
+  console.log(index);
 
   return (
     <IonPage>
@@ -52,8 +58,39 @@ const Tafsir = ({ match }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen scrollY={false}>
+        <IonItem>
+          <IonInput
+            type="number"
+            min={0}
+            step="1"
+            value={index}
+            autofocus
+            inputMode="numeric"
+            onIonChange={e => setIndex(e.detail.value)}
+          ></IonInput>
+          <label>
+            <b>Behavior:</b>
+            <select value={behavior} onChange={e => setBehavior(e.target.value)}>
+              <option value="auto">Instant (auto)</option>
+              <option value="smooth">Smooth</option>
+            </select>
+          </label>
+          <IonButton
+            onClick={() => {
+              virtuoso.current.scrollToIndex({
+                index: index,
+                align: 'start',
+                behavior,
+              });
+              return false;
+            }}
+          >
+            Scroll To
+          </IonButton>
+        </IonItem>
         {data && (
           <Virtuoso
+            ref={virtuoso}
             overscan={2}
             // style={{ height: '100vh' }}
             totalCount={data.length}
