@@ -99,6 +99,11 @@ const AppShell = () => {
             <Route exact path="/tafsirs" render={() => <Tafsirs />} />
             <Route exact path="/amar-zakat" render={props => <AmarZakat {...props} />} />
             <Route exact path="/tafsirs/:id" render={props => <Tafsir {...props} />} />
+            <Route
+              exact
+              path="/tafsirs/:id/:secId-:behavior"
+              render={props => <Tafsir {...props} />}
+            />
             <Route exact path="/about" render={() => <About />} />
           </IonRouterOutlet>
         </IonSplitPane>

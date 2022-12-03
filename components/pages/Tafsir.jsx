@@ -19,9 +19,11 @@ import { Virtuoso } from 'react-virtuoso';
 const Tafsir = ({ match }) => {
   const virtuoso = useRef(null);
   let id = match.params.id;
+  let secId = match.params.secId;
+  let behavior = match.params.behavior;
   const [data, setData] = useState();
-  const [index, setIndex] = useState(0);
-  const [behavior, setBehavior] = useState('auto');
+
+  console.log(secId, behavior);
 
   // get from store (global state)
   const isUpdated = Store.useState(selectors.getIsUpdatedGl);
@@ -43,9 +45,19 @@ const Tafsir = ({ match }) => {
     };
     load();
     console.log('Tafsir useEffect');
-  }, [isUpdated, isImported]);
+  }, [isUpdated, isImported, id]);
 
-  console.log(index);
+  useEffect(() => {
+    if (secId && behavior && data) {
+      console.log(virtuoso.current);
+      virtuoso.current.scrollToIndex({
+        index: secId,
+        align: 'start',
+        behavior: behavior,
+      });
+      // return false;
+    }
+  }, [secId, behavior, data]);
 
   return (
     <IonPage>
@@ -58,36 +70,6 @@ const Tafsir = ({ match }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen scrollY={false}>
-        <IonItem>
-          <IonInput
-            type="number"
-            min={0}
-            step="1"
-            value={index}
-            autofocus
-            inputMode="numeric"
-            onIonChange={e => setIndex(e.detail.value)}
-          ></IonInput>
-          <label>
-            <b>Behavior:</b>
-            <select value={behavior} onChange={e => setBehavior(e.target.value)}>
-              <option value="auto">Instant (auto)</option>
-              <option value="smooth">Smooth</option>
-            </select>
-          </label>
-          <IonButton
-            onClick={() => {
-              virtuoso.current.scrollToIndex({
-                index: index,
-                align: 'start',
-                behavior,
-              });
-              return false;
-            }}
-          >
-            Scroll To
-          </IonButton>
-        </IonItem>
         {data && (
           <Virtuoso
             ref={virtuoso}
